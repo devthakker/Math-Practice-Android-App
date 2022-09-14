@@ -34,18 +34,16 @@ public class MainActivity3 extends AppCompatActivity {
         correctAnswers = findViewById(R.id.correctAnswers);
         home = findViewById(R.id.returnHome);
 
-        //base text
-        correctAnswers.setText("Total number of questions solved correctly - " + String.valueOf(MainViewModel.correctAnswers));
+        //get intent for data
+        int correct = getIntent().getIntExtra("correctAnswers",0);
+
+        //Correct answers
+        correctAnswers.setText("Total number of questions solved correctly - " + String.valueOf(correct));
 
         //onClick listener for going back to the home screen
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainViewModel.answer.clear();
-                MainViewModel.oper = "";
-                MainViewModel.questionIndex = 0;
-                MainViewModel.correctAnswers = 0;
-                MainViewModel.questions = 10;
 
                 Intent intent = new Intent(MainActivity3.this, MainActivity.class);
                 startActivity(intent);

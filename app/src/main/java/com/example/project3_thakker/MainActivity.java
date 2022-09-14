@@ -31,6 +31,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView numberQuestions;
 
+    //All data variables that are needed created bellow
+
+    ArrayList<Integer> firstNum = new ArrayList<Integer>();
+    ArrayList<Integer> secondNum = new ArrayList<Integer>();
+
+    int questions = 10;
+
+    int maxNumber;
+
+    String oper;
+
+
+
     /**
      * onCreate for the activity_main1
      * @param savedInstanceState
@@ -75,32 +88,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int difficultyCheckedId = difficulty.getCheckedRadioButtonId();
 
         if(operationCheckedId == R.id.add){
-            MainViewModel.oper = "+";
+            oper = "+";
         }else if(operationCheckedId == R.id.sub){
-            MainViewModel.oper = "-";
+            oper = "-";
         }else if(operationCheckedId == R.id.mult){
-            MainViewModel.oper = "x";
+            oper = "x";
         }else if(operationCheckedId == R.id.div){
-            MainViewModel.oper = "/";
+            oper = "/";
         }
 
         if(difficultyCheckedId == R.id.easy){
-            MainViewModel.maxNumber = 10;
+            maxNumber = 10;
         }else if(difficultyCheckedId == R.id.medium){
-            MainViewModel.maxNumber = 25;
+            maxNumber = 25;
         }else if(difficultyCheckedId == R.id.hard){
-            MainViewModel.maxNumber = 50;
+            maxNumber = 50;
         }
 
         generateRandomNum();
 
         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        intent.putExtra("questions", questions);
+        intent.putExtra("oper", oper);
+        intent.putIntegerArrayListExtra("firstNum", firstNum);
+        intent.putIntegerArrayListExtra("secondNum", secondNum);
         startActivity(intent);
 
-        Log.v(null,String.valueOf(MainViewModel.maxNumber));
-        Log.v(null,MainViewModel.oper);
-        Log.v(null,MainViewModel.firstNum.toString());
-        Log.v(null,MainViewModel.secondNum.toString());
+        Log.v(null,String.valueOf(maxNumber));
+        Log.v(null,oper);
+        Log.v(null,firstNum.toString());
+        Log.v(null,secondNum.toString());
 
     }
 
@@ -110,14 +127,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void generateRandomNum() {
         Random rand = new Random();
 
-        MainViewModel.firstNum.clear();
-        MainViewModel.secondNum.clear();
+        firstNum.clear();
+        secondNum.clear();
 
-        for (int i = 0; i < MainViewModel.questions; i++) {
-            MainViewModel.firstNum.add(rand.nextInt(MainViewModel.maxNumber));
+        for (int i = 0; i < questions; i++) {
+            firstNum.add(rand.nextInt(maxNumber));
         }
-        for (int j = 0; j < MainViewModel.questions; j++) {
-            MainViewModel.secondNum.add(rand.nextInt(MainViewModel.maxNumber));
+        for (int j = 0; j < questions; j++) {
+            secondNum.add(rand.nextInt(maxNumber));
         }
     }
 
@@ -125,9 +142,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      *  method to increase the number of questions when the minus button is clicked
      */
     public void addQ(View view){
-        MainViewModel.questions++;
-        numberQuestions.setText(String.valueOf(MainViewModel.questions));
-        Log.v(null,"Number of questions " + String.valueOf(MainViewModel.questions));
+        questions++;
+        numberQuestions.setText(String.valueOf(questions));
+        Log.v(null,"Number of questions " + String.valueOf(questions));
     }
 
     /**
@@ -135,12 +152,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param view
      */
     public void subQ(View view){
-        if(MainViewModel.questions == 1){
+        if(questions == 1){
             Toast.makeText(getApplicationContext(), "1 is the minimum", Toast.LENGTH_SHORT).show();
         }else{
-            MainViewModel.questions--;
-            numberQuestions.setText(String.valueOf(MainViewModel.questions));
-            Log.v(null,"Number of questions " + String.valueOf(MainViewModel.questions));
+            questions--;
+            numberQuestions.setText(String.valueOf(questions));
+            Log.v(null,"Number of questions " + String.valueOf(questions));
         }
     }
 }
